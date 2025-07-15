@@ -1,0 +1,15 @@
+# Ignore Playwright session data
+playwright_session/
+
+# Ignore Python cache and environment files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+env/
+venv/
+.idea/
+.vscode/
+.DS_Store
