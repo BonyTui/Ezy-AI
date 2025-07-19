@@ -12,8 +12,34 @@ SCROLL_TIMES = 5  # How many times to scroll to load more comments
 
 # List of individual post URLs to scrape
 POST_URLS = [
-    "https://www.facebook.com/groups/826048477881333/posts/2153243345161833/",
-    "https://www.facebook.com/groups/vietnamnewzealand/posts/1654872355087334/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1654872355087334",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1424060458168526",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1450398948868010/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1420200121887893/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1894192337822000/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1889006665007234/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1450398948868010",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1618215558753014",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1478226452751926/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1601944153713488/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/529271195360425/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/671698034451073/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/484214053199473/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/529271195360425",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/721898376097705/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/608377404116470/",
+    "https://www.facebook.com/groups/vietnameseinnz/posts/535687248052153/",
+    "https://www.facebook.com/groups/826048477881333/posts/2153243345161833",
+    "https://www.facebook.com/groups/826048477881333/posts/2157934828026018",
+    "https://www.facebook.com/groups/826048477881333/posts/1874674479685389/",
+    "https://www.facebook.com/groups/826048477881333/posts/2157265824759585/",
+    "https://www.facebook.com/groups/sovis/posts/3213607312120516/",
+    "https://www.facebook.com/groups/sovis/posts/3031525070328742/",
+    "https://www.facebook.com/groups/sovis/posts/2780541492093769/",
+    "https://www.facebook.com/groups/svtaiuc/posts/25450586264587554/",
+    "https://www.facebook.com/groups/svtaiuc/posts/6364554893617311/",
+
+    
 ]
 
 def clean_comment_text(comment_text: str) -> str:
@@ -156,6 +182,26 @@ def scrape_individual_posts(post_urls: List[str]) -> List[Dict]:
     Returns:
         List of dictionaries containing post data and comments
     """
+    # Check existing results to filter out already scraped URLs
+    existing_urls = set()
+    if os.path.exists("scraped_posts.json"):
+        try:
+            with open("scraped_posts.json", 'r', encoding='utf-8') as f:
+                existing_results = json.load(f)
+                existing_urls = {result.get('url') for result in existing_results if result.get('url')}
+        except (json.JSONDecodeError, FileNotFoundError):
+            pass
+    
+    # Filter out URLs that have already been scraped
+    urls_to_scrape = [url for url in post_urls if url not in existing_urls]
+    
+    if not urls_to_scrape:
+        print("All posts have already been scraped!")
+        return []
+    
+    print(f"Found {len(existing_urls)} already scraped posts")
+    print(f"Will scrape {len(urls_to_scrape)} new posts")
+
     results = []
     
     with sync_playwright() as p:
@@ -166,7 +212,7 @@ def scrape_individual_posts(post_urls: List[str]) -> List[Dict]:
         )
         page = context.new_page()
         
-        for idx, post_url in enumerate(post_urls):
+        for idx, post_url in enumerate(urls_to_scrape):
             print(f"\n[{idx + 1}/{len(post_urls)}] Scraping post: {post_url}")
             
             try:
@@ -313,14 +359,14 @@ def scrape_individual_posts(post_urls: List[str]) -> List[Dict]:
     
     return results
 
-def save_results_to_json(results: List[Dict], filename: str = "scraped_posts.json"):
-    """Save scraping results to a JSON file."""
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(results, f, indent=2, ensure_ascii=False)
-    print(f"\nResults saved to {filename}")
+
 
 def print_summary(results: List[Dict]):
     """Print a summary of the scraping results."""
+    if not results:
+        print("No results to summarize.")
+        return
+    
     print(f"\n{'='*50}")
     print("SCRAPING SUMMARY")
     print(f"{'='*50}")
@@ -328,21 +374,17 @@ def print_summary(results: List[Dict]):
     total_posts = len(results)
     successful_posts = len([r for r in results if "error" not in r])
     total_comments = sum(len(r.get("comments", [])) for r in results if "error" not in r)
+    posts_with_content = len([r for r in results if r.get("post_text") and "error" not in r])
     
     print(f"Total posts processed: {total_posts}")
     print(f"Successfully scraped: {successful_posts}")
     print(f"Failed: {total_posts - successful_posts}")
+    print(f"Posts with content: {posts_with_content}")
     print(f"Total comments collected: {total_comments}")
+    if successful_posts > 0:
+        print(f"Average comments per post: {total_comments/successful_posts:.1f}")
     
-    for i, result in enumerate(results):
-        if "error" not in result:
-            print(f"\nPost {i+1}: {len(result['comments'])} comments")
-            print(f"  URL: {result['url']}")
-            if result['post_text']:
-                print(f"  Post preview: {result['post_text'][:100]}{'...' if len(result['post_text']) > 100 else ''}")
-        else:
-            print(f"\nPost {i+1}: ERROR - {result['error']}")
-            print(f"  URL: {result['url']}")
+    print(f"{'='*50}")
 
 def manual_browse():
     """Open browser for manual testing/verification."""
@@ -362,6 +404,52 @@ def manual_browse():
             
         input("Press Enter to close the browser and end manual mode...")
         context.close()
+
+def save_results_to_json(results: List[Dict], filename: str = "scraped_posts.json"):
+    """
+    Save results to JSON file, appending new posts to existing ones.
+    Skips posts that have already been scraped.
+    
+    Args:
+        results: List of scraped post data
+        filename: Output filename
+    """
+    try:
+        # Load existing results
+        existing_results = []
+        existing_urls = set()
+        
+        if os.path.exists(filename):
+            try:
+                with open(filename, 'r', encoding='utf-8') as f:
+                    existing_results = json.load(f)
+                    existing_urls = {result.get('url') for result in existing_results if result.get('url')}
+            except (json.JSONDecodeError, FileNotFoundError) as e:
+                print(f"Warning: Could not load existing results from {filename}: {e}")
+        
+        # Filter out posts that have already been scraped
+        new_results = []
+        for result in results:
+            url = result.get('url')
+            if url not in existing_urls:
+                new_results.append(result)
+                print(f"New post added: {url}")
+            else:
+                print(f"Skipped existing post: {url}")
+        
+        # Combine existing and new results
+        all_results = existing_results + new_results
+        
+        # Save to file
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(all_results, f, ensure_ascii=False, indent=2)
+        
+        print(f"\nResults saved to {filename}")
+        print(f"Total posts in file: {len(all_results)}")
+        print(f"New posts added: {len(new_results)}")
+        
+    except Exception as e:
+        print(f"Error saving results: {e}")
 
 if __name__ == "__main__":
     if not os.path.exists(USER_DATA_DIR):
@@ -383,15 +471,27 @@ if __name__ == "__main__":
         if mode in ['m', 'manual']:
             manual_browse()
         elif mode in ['a', 'auto']:
-            if not POST_URLS:
-                print("Cannot run automation without post URLs. Please configure POST_URLS first.")
-            else:
-                print("\nStarting automatic scraping...")
-                results = scrape_individual_posts(POST_URLS)
-                
-                # Save and display results
+            print("Starting automatic scraping...")
+            results = scrape_individual_posts(POST_URLS)
+            
+            if results:
                 save_results_to_json(results)
                 print_summary(results)
+            else:
+                print("No new posts to scrape or no results obtained.")
+            
+            # Also print summary of all existing data
+            print("\n" + "="*50)
+            print("SUMMARY OF ALL SCRAPED DATA")
+            print("="*50)
+            try:
+                with open("scraped_posts.json", 'r', encoding='utf-8') as f:
+                    all_data = json.load(f)
+                    print_summary(all_data)
+            except Exception as e:
+                print(f"Could not load existing data for summary: {e}")
+            
+            print("Scraping completed!")
         elif mode in ['q', 'quit']:
             print("Goodbye!")
         else:
