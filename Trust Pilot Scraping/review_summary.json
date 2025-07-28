@@ -1,0 +1,136 @@
+{
+  "analysis_date": "2025-07-28 23:18:26",
+  "total_companies": 10,
+  "total_reviews": 8391,
+  "companies": [
+    {
+      "company": "ezyremit.com",
+      "total_reviews": 64,
+      "reviews_with_text": 61,
+      "reviews_without_text": 3,
+      "rating_distribution": {
+        "4": 3,
+        "5": 53,
+        "1": 7,
+        "2": 1
+      }
+    },
+    {
+      "company": "remitly.com",
+      "total_reviews": 948,
+      "reviews_with_text": 847,
+      "reviews_without_text": 101,
+      "rating_distribution": {
+        "5": 782,
+        "1": 80,
+        "4": 54,
+        "2": 16,
+        "3": 16
+      }
+    },
+    {
+      "company": "westernunion.com",
+      "total_reviews": 1000,
+      "reviews_with_text": 847,
+      "reviews_without_text": 153,
+      "rating_distribution": {
+        "5": 691,
+        "3": 32,
+        "1": 152,
+        "4": 88,
+        "2": 37
+      }
+    },
+    {
+      "company": "moneygram.com",
+      "total_reviews": 1000,
+      "reviews_with_text": 898,
+      "reviews_without_text": 102,
+      "rating_distribution": {
+        "1": 142,
+        "4": 100,
+        "5": 700,
+        "2": 21,
+        "3": 37
+      }
+    },
+    {
+      "company": "wise.com",
+      "total_reviews": 1000,
+      "reviews_with_text": 884,
+      "reviews_without_text": 116,
+      "rating_distribution": {
+        "5": 779,
+        "4": 71,
+        "1": 102,
+        "2": 18,
+        "3": 30
+      }
+    },
+    {
+      "company": "worldremit.com",
+      "total_reviews": 1000,
+      "reviews_with_text": 896,
+      "reviews_without_text": 104,
+      "rating_distribution": {
+        "1": 280,
+        "3": 52,
+        "5": 553,
+        "4": 77,
+        "2": 38
+      }
+    },
+    {
+      "company": "orbitremit.com",
+      "total_reviews": 980,
+      "reviews_with_text": 806,
+      "reviews_without_text": 174,
+      "rating_distribution": {
+        "5": 883,
+        "4": 67,
+        "1": 17,
+        "2": 5,
+        "3": 8
+      }
+    },
+    {
+      "company": "riamoneytransfer.com",
+      "total_reviews": 999,
+      "reviews_with_text": 749,
+      "reviews_without_text": 250,
+      "rating_distribution": {
+        "3": 59,
+        "2": 24,
+        "5": 727,
+        "4": 116,
+        "1": 73
+      }
+    },
+    {
+      "company": "ofx.com",
+      "total_reviews": 1000,
+      "reviews_with_text": 958,
+      "reviews_without_text": 42,
+      "rating_distribution": {
+        "5": 786,
+        "4": 52,
+        "1": 120,
+        "2": 17,
+        "3": 25
+      }
+    },
+    {
+      "company": "xe.com",
+      "total_reviews": 400,
+      "reviews_with_text": 351,
+      "reviews_without_text": 49,
+      "rating_distribution": {
+        "5": 311,
+        "1": 30,
+        "4": 39,
+        "2": 8,
+        "3": 12
+      }
+    }
+  ]
+}

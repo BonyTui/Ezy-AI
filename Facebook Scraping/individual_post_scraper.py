@@ -38,7 +38,13 @@ POST_URLS = [
     "https://www.facebook.com/groups/sovis/posts/2780541492093769/",
     "https://www.facebook.com/groups/svtaiuc/posts/25450586264587554/",
     "https://www.facebook.com/groups/svtaiuc/posts/6364554893617311/",
-
+    "https://www.facebook.com/groups/740872500956353/posts/1037651204611813/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1553917005182870/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1463789094195662/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1663016114272958/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1840610623180172/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1392648841309688/",
+    "https://www.facebook.com/groups/vietnamnewzealand/posts/1693301874577715/",
     
 ]
 
@@ -184,9 +190,10 @@ def scrape_individual_posts(post_urls: List[str]) -> List[Dict]:
     """
     # Check existing results to filter out already scraped URLs
     existing_urls = set()
-    if os.path.exists("scraped_posts.json"):
+    file_path = "Facebook Scraping/scraped_posts.json"
+    if os.path.exists(file_path):
         try:
-            with open("scraped_posts.json", 'r', encoding='utf-8') as f:
+            with open(file_path, 'r', encoding='utf-8') as f:
                 existing_results = json.load(f)
                 existing_urls = {result.get('url') for result in existing_results if result.get('url')}
         except (json.JSONDecodeError, FileNotFoundError):
