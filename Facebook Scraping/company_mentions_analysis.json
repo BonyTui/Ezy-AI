@@ -1,0 +1,47 @@
+{
+  "analysis_date": "2025-07-28 23:39:13",
+  "total_comments_analyzed": 329,
+  "comments_with_company_mentions": 73,
+  "company_mentions": {
+    "OrbitRemit": 12,
+    "Remitly": 3,
+    "Wise": 28,
+    "EzyRemit": 31,
+    "WorldRemit": 1,
+    "Western Union": 3
+  },
+  "company_percentages": {
+    "OrbitRemit": 16.43835616438356,
+    "Remitly": 4.10958904109589,
+    "Wise": 38.35616438356164,
+    "EzyRemit": 42.465753424657535,
+    "WorldRemit": 1.36986301369863,
+    "Western Union": 4.10958904109589
+  },
+  "sorted_results": [
+    [
+      "EzyRemit",
+      42.465753424657535
+    ],
+    [
+      "Wise",
+      38.35616438356164
+    ],
+    [
+      "OrbitRemit",
+      16.43835616438356
+    ],
+    [
+      "Remitly",
+      4.10958904109589
+    ],
+    [
+      "Western Union",
+      4.10958904109589
+    ],
+    [
+      "WorldRemit",
+      1.36986301369863
+    ]
+  ]
+}

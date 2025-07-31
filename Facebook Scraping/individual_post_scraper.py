@@ -9,6 +9,7 @@ from typing import List, Dict
 USER_DATA_DIR = "./playwright_session"
 HEADLESS_MODE = False
 SCROLL_TIMES = 5  # How many times to scroll to load more comments
+file_path = "Facebook Scraping/scraped_posts.json"
 
 # List of individual post URLs to scrape
 POST_URLS = [
@@ -190,7 +191,6 @@ def scrape_individual_posts(post_urls: List[str]) -> List[Dict]:
     """
     # Check existing results to filter out already scraped URLs
     existing_urls = set()
-    file_path = "Facebook Scraping/scraped_posts.json"
     if os.path.exists(file_path):
         try:
             with open(file_path, 'r', encoding='utf-8') as f:
@@ -412,7 +412,7 @@ def manual_browse():
         input("Press Enter to close the browser and end manual mode...")
         context.close()
 
-def save_results_to_json(results: List[Dict], filename: str = "scraped_posts.json"):
+def save_results_to_json(results: List[Dict], filename: str = file_path):
     """
     Save results to JSON file, appending new posts to existing ones.
     Skips posts that have already been scraped.
@@ -492,7 +492,7 @@ if __name__ == "__main__":
             print("SUMMARY OF ALL SCRAPED DATA")
             print("="*50)
             try:
-                with open("scraped_posts.json", 'r', encoding='utf-8') as f:
+                with open(file_path, 'r', encoding='utf-8') as f:
                     all_data = json.load(f)
                     print_summary(all_data)
             except Exception as e:

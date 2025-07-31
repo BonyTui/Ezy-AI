@@ -338,7 +338,7 @@ def main():
         print(f"\n🏢 Processing company: {company}")
         print("-" * 40)
         
-        reviews_count = scrape_trustpilot_reviews(company, max_pages=20)
+        reviews_count = scrape_trustpilot_reviews(company, max_pages=5)
         
         if reviews_count > 0:
             total_companies_scraped += 1
